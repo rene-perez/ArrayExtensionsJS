@@ -35,5 +35,17 @@ describe("Array Extensions", function(){
 			
 			expect(currentIndexes).to.deep.equal(expectedIndexes);
 		});
+		
+		it("binds correctly the current array as this", function(){
+			var testArr = [1,2];
+			var length;
+			var callback = function(element, index){
+				length = this.length;
+			}
+			testArr.each(callback);
+			
+			expect(length).to.equal(2);
+			
+		})
 	});
 });
