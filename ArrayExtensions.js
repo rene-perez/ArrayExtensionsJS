@@ -18,8 +18,8 @@ Array.prototype.where = function(spec){
 };
 
 Array.prototype.any = function(spec){
-	var isSpecAFunction = spec instanceof Function;
-	var element;
+	var isSpecAFunction = spec instanceof Function,
+		element;
 	for(var i =0,length = this.length; i< length; i++){
 		element = this[i];
 		if(isSpecAFunction){
