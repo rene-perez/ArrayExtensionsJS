@@ -82,7 +82,7 @@ describe("Array Extensions", function(){
 			
 		});
 		
-		it("Excercise test",function(){
+		it("Exercise test", function(){
 			var people = [ 
 			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
 			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
@@ -104,8 +104,54 @@ describe("Array Extensions", function(){
 			})
 			.each(logPerson)
 			
-			expect(messages).to.deep.equal(expectedMessages);
+			expect(messages).to.deep.equal(expectedMessages);			
+		});
+	});
+	
+	// any function tests
+	describe("any", function(){
+		it("Exercise test with spec function", function(){
+			var people = [ 
+			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
+			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
+			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
+			    ],
+				messages = [],
+				expectedMessages = [
+					"1.- pedro is 29 years old",
+					"2.- pablo is 26 years old"
+				],
+				logPerson = function(x, i){
+				  messages.push((i + 1) + '.- ' + x.name + ' is ' + x.age + ' years old');  
+				};
+			people.where(function(dev){
+			    return !dev.skills.any(function(skill) { return skill == 'PHP' });
+			})
+			.each(logPerson);
 			
+			expect(messages).to.deep.equal(expectedMessages);	
+		});
+		
+		it("Exercise test with spec object", function(){
+			var people = [ 
+			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
+			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
+			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
+			    ],
+				messages = [],
+				expectedMessages = [
+					"1.- pedro is 29 years old",
+					"2.- pablo is 26 years old"
+				],
+				logPerson = function(x, i){
+				  messages.push((i + 1) + '.- ' + x.name + ' is ' + x.age + ' years old');  
+				};
+			people.where(function(dev){
+			    return !dev.skills.any('PHP');
+			})
+			.each(logPerson);
+			
+			expect(messages).to.deep.equal(expectedMessages);	
 		});
 	});
 });

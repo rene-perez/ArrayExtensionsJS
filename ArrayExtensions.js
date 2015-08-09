@@ -6,13 +6,32 @@ Array.prototype.each = function(callback){
 	}
 };
 
-Array.prototype.where = function(predicate){
-	var newArray = [];
-	this.each(function(element){
-		if(predicate.call(this, element)){
-			newArray.push(element);
+Array.prototype.where = function(spec){
+	var filteredArray = [];
+	this.each(function(element, index){
+		if(spec.call(this, element)){
+			filteredArray.push(element);
 		}
 	});
 	
-	return newArray;
+	return filteredArray;
+};
+
+Array.prototype.any = function(spec){
+	var isSpecAFunction = spec instanceof Function;
+	var element;
+	for(var i =0,length = this.length; i< length; i++){
+		element = this[i];
+		if(isSpecAFunction){
+			if(spec.call(this, element)){
+				return true;
+			}
+		}else{
+			if(element == spec){
+				return true;
+			}
+		}
+	};
+	
+	return false;
 };
