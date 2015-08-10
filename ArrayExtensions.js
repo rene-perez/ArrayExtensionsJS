@@ -8,6 +8,10 @@ Array.prototype.evaluateSpec = function(element, spec){
 	}	
 };
 
+Array.prototype.isEmpty = function(){
+	return !this.length;	
+};
+
 Array.prototype.each = function(callback){
 	for(var i =0,length = this.length; i< length; i++){
 		callback.call(this, this[i], i);
@@ -59,28 +63,13 @@ Array.prototype.skip = function(howMany){
 };
 
 Array.prototype.first = function(spec){
-	var element = this.take(1, spec)[0];
-	if(element === undefined){
-			return null;
-	}
-	
-	return element;
+	var result = this.where(spec);
+	return result.isEmpty() ? null : result[0];
 };
 
 Array.prototype.last = function(spec){
-	var element;
-	if(spec){
-		var filtered = this.where(spec);
-		element = filtered[filtered.length - 1];
-	}else{
-		element = this[this.length - 1];
-	}
-	
-	if(element === undefined){
-		return null;
-	}
-	
-	return element;
+	var results = this.where(spec);
+	return results.isEmpty() ? null : results[results.length - 1];
 };
 
 Array.prototype.count = function(spec){
@@ -104,57 +93,46 @@ Array.prototype.pluck = function(property){
 	return properties;
 };
 
-Array.prototype.sum = function(spec){	
-	var sum = null;
-	for(var i = 0, length = this.length; i < length; i++){
-		if(i === 0){			
-			if(spec){
-				sum = spec.call(this, this[i]);
-			}else{
-				sum = this[i];
-			}
-			continue;
-		}
-		
-		if(spec){
-			sum += spec.call(this, this[i]);
-		}else{
-			sum += this[i];
-		}
+Array.prototype.sum = function(spec){
+	if(this.isEmpty()){
+		return null;
 	}
-	
+	var sum = spec ? spec.call(this, this[0]) : this[0];
+	for(var i = 1, length = this.length; i < length; i++){
+		sum +=  spec ? spec.call(this, this[i]) : this[i];
+	}	
 	return sum;
 };
 
 Array.prototype.max = function(comparer){
+	if(this.isEmpty()){
+		return null;
+	}
 	comparer = comparer || function(a, b){return a - b};
 	return this.sort(comparer)[this.length -1];
 };
 
 Array.prototype.min = function(comparer){
+	if(this.isEmpty()){
+		return null;
+	}
 	comparer = comparer || function(a, b){return a - b};
 	return this.sort(comparer)[0];	
 };
 
 Array.prototype.flatten = function(){
-	var newArray = [];
-	this.each(function(element, index){
+	function addArrayElement(newArray, element){
 		if(Array.isArray(element)){
-			addArrayElement(newArray, element);
+			element.each(function(el, idx){
+				addArrayElement(newArray, el);
+			})
 		}else{
 			newArray.push(element);
 		}
-	});
-	
-	function addArrayElement(newArray, originalArray){
-		originalArray.each(function(element, index){
-			if(Array.isArray(element)){
-				addArrayElement(newArray, element);
-			}else{
-				newArray.push(element);
-			}
-		});
 	};
 	
-	return newArray;
+	var newArray = [];
+	addArrayElement(newArray, this);
+	
+	return newArray.isEmpty() ? null : newArray;
 };

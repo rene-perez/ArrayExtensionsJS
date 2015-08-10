@@ -478,6 +478,11 @@ describe("Array Extensions", function(){
 			
 			expect(actual).to.equal('pedro');
 		});
+		
+		it("Empty array returns null", function(){
+			var actual = [].max();
+			expect(actual).to.equal(null);
+		});
 	});
 	
 	// min function tests
@@ -509,6 +514,11 @@ describe("Array Extensions", function(){
 			var actual = people.min(function(a, b){ return a.age - b.age; }).name;
 			
 			expect(actual).to.equal('juan');
+		});
+		
+		it("Empty array returns null", function(){
+			var actual = [].min();
+			expect(actual).to.equal(null);
 		});
 	});
 	
