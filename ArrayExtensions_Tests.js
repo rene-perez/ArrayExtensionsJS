@@ -4,6 +4,11 @@
 var expect = chai.expect;
 
 describe("Array Extensions", function(){
+	var people = [ 
+			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
+			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
+			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
+			    ];
 	// each function test section
 	describe("each", function(){
 		it("executes the callback for each element", function(){
@@ -83,12 +88,7 @@ describe("Array Extensions", function(){
 		});
 		
 		it("Exercise test", function(){
-			var people = [ 
-			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
-			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
-			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
-			    ],
-				messages = [],
+			var messages = [],
 				expectedMessages = [
 					"1.- pedro is 29 years old",
 					"2.- pablo is 26 years old"
@@ -111,12 +111,7 @@ describe("Array Extensions", function(){
 	// any function tests
 	describe("any", function(){
 		it("Exercise test with spec function", function(){
-			var people = [ 
-			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
-			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
-			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
-			    ],
-				messages = [],
+			var messages = [],
 				expectedMessages = [
 					"1.- pedro is 29 years old",
 					"2.- pablo is 26 years old"
@@ -133,12 +128,7 @@ describe("Array Extensions", function(){
 		});
 		
 		it("Exercise test with spec object", function(){
-			var people = [ 
-			    {name: 'pedro', age: 29, skills: ['C#', 'Asp.Net', 'OOP'] },
-			    {name: 'juan', age: 23, skills: ['PHP', 'Drink tea']  },
-			    {name: 'pablo', age: 26, skills: ['RoR', 'HTML/CSS'] }
-			    ],
-				messages = [],
+			var messages = [],
 				expectedMessages = [
 					"1.- pedro is 29 years old",
 					"2.- pablo is 26 years old"
@@ -152,6 +142,140 @@ describe("Array Extensions", function(){
 			.each(logPerson);
 			
 			expect(messages).to.deep.equal(expectedMessages);	
+		});
+	});
+	// select function tests
+	describe("select", function(){
+		it("Exercise test", function(){
+			var messages = [],
+				expectedMessages = [
+					"pedro",
+					"pablo"
+				];
+			people
+			    .where(function(dev){
+			        return !dev.skills.any('PHP');
+			    })
+			    .select(function(dev) {
+			        return dev.name;
+			    })
+			    .each(function(x){
+			        messages.push(x);
+			    });
+			expect(messages).to.deep.equal(expectedMessages);
+		});
+		
+		it("Returns complex object", function(){
+			var objects = [],
+				expectedObjects = [
+					{name: 'pedro', age: 29 },
+			    	{name: 'juan', age: 23 },
+			    	{name: 'pablo', age: 26 }
+				];
+			
+			people.select(function(dev){
+				return {
+					name: dev.name,
+					age: dev.age
+				};
+			}).each(function(dev){
+				objects.push(dev);
+			});
+			
+			expect(objects).to.deep.equal(expectedObjects);
+		});
+		
+		it("binds correctly the current array as this", function(){
+			var length = 0;
+			
+			people.select(function(dev){
+				length = this.length;
+				return dev;
+			});
+			
+			expect(length).to.equal(people.length);
+		});
+	});
+	// take function tests
+	describe("take", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		
+		it("Excersice test", function(){
+			var names = [],
+			expectedNames = ['ana','jane','yadi'];
+			
+			children
+			    .take(3, function(x){ return x.sex == 'f';})
+			    .each(function(x){ names.push(x.name); });
+				
+			expect(names).to.deep.equal(expectedNames);
+		});
+		
+		it("With no spec function defined, returns the initial elements", function(){
+			var names = [],
+			expectedNames = ['ana','fosto','jane'];
+			
+			children
+			    .take(3)
+			    .each(function(x){ names.push(x.name); });
+				
+			expect(names).to.deep.equal(expectedNames);
+		});
+		
+		it("With more elements that the array length", function(){
+			var names = [],
+			expectedNames = ['ana','fosto','jane', 'yadi','lili','bany','rod','auro','martin'];
+			
+			children
+			    .take(10)
+			    .each(function(x){ names.push(x.name); });
+				
+			expect(names).to.deep.equal(expectedNames);
+		});
+		
+		it("binds correctly the current array as this", function(){
+			var length = 0;
+			
+			children
+			    .take(3, function(x){
+					length = this.length; 
+					return x;
+				});
+				
+			expect(length).to.deep.equal(children.length);
+		});
+	});
+	// skip function tests
+	describe("skip", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		it("Exercise test", function(){
+			var names = [],
+				expectedNames = ['yadi','lili','bany','rod','auro','martin'];
+			children
+			    .skip(3)
+			    .each(function(x){ names.push(x.name); });
+				
+			expect(names).to.deep.equal(expectedNames);
 		});
 	});
 });

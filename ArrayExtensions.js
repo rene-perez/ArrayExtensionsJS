@@ -20,7 +20,7 @@ Array.prototype.where = function(spec){
 Array.prototype.any = function(spec){
 	var isSpecAFunction = spec instanceof Function,
 		element;
-	for(var i =0,length = this.length; i< length; i++){
+	for(var i =0,length = this.length; i < length; i++){
 		element = this[i];
 		if(isSpecAFunction){
 			if(spec.call(this, element)){
@@ -35,3 +35,23 @@ Array.prototype.any = function(spec){
 	
 	return false;
 };
+
+Array.prototype.select = function(spec){
+	var selectArray = [];
+	this.each(function(element, index){
+		selectArray.push(spec.call(this, element));
+	});	
+	return selectArray;
+};
+
+Array.prototype.take = function(howMany, spec){
+	if(spec){
+		return this.where(spec).slice(0,howMany);
+	}else{
+		return this.slice(0, howMany);
+	}
+};
+
+Array.prototype.skip = function(howMany){
+	return this.slice(howMany);
+}
