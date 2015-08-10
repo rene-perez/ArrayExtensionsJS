@@ -310,4 +310,36 @@ describe("Array Extensions", function(){
 			expect(actual).to.equal(null);
 		});
 	});
+	
+	// last function tests
+	describe("last", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		it("Exercise test 1", function(){
+			var actual = children.last().name;
+			
+			expect(actual).to.equal('martin');
+		});
+		
+		it("Exercise test 2", function(){
+			var actual = children.last(function(x){ return x.sex == 'f';}).name;
+			
+			expect(actual).to.equal('auro');
+		});
+		
+		it("When no elements for spec", function(){
+			var actual = children.last(function(x){ return x.sex == 'x';});
+			
+			expect(actual).to.equal(null);
+		});
+	});
 });

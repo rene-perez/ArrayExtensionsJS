@@ -64,3 +64,19 @@ Array.prototype.first = function(spec){
 	
 	return element;
 };
+
+Array.prototype.last = function(spec){
+	var element;
+	if(spec){
+		var filtered = this.where(spec);
+		element = filtered[filtered.length - 1];
+	}else{
+		element = this[this.length - 1];
+	}
+	
+	if(element === undefined){
+		return null;
+	}
+	
+	return element;
+}
