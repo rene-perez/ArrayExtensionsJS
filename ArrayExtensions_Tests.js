@@ -307,7 +307,7 @@ describe("Array Extensions", function(){
 		it("When no elements for spec", function(){
 			var actual = children.first(function(x){ return x.sex == 'x';});
 			
-			expect(actual).to.equal(undefined);
+			expect(actual).to.equal(null);
 		});
 	});
 });

@@ -57,5 +57,10 @@ Array.prototype.skip = function(howMany){
 };
 
 Array.prototype.first = function(spec){
-	return this.take(1, spec)[0];
+	var element = this.take(1, spec)[0];
+	if(element === undefined){
+			return null;
+	}
+	
+	return element;
 };
