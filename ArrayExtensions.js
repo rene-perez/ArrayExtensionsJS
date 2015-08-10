@@ -54,4 +54,12 @@ Array.prototype.take = function(howMany, spec){
 
 Array.prototype.skip = function(howMany){
 	return this.slice(howMany);
-}
+};
+
+Array.prototype.first = function(spec){
+	if(spec){
+		return this.where(spec)[0];
+	}else{
+		return this[0];
+	}
+};
