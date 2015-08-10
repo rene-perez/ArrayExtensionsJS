@@ -1,5 +1,13 @@
 'use strict';
 
+Array.prototype.evaluateSpec = function(element, spec){
+	if(spec instanceof Function){
+		return spec.call(this, element);
+	}else{
+		return element == spec;
+	}	
+};
+
 Array.prototype.each = function(callback){
 	for(var i =0,length = this.length; i< length; i++){
 		callback.call(this, this[i], i);
@@ -7,6 +15,9 @@ Array.prototype.each = function(callback){
 };
 
 Array.prototype.where = function(spec){
+	if(spec === undefined){
+		return this;
+	}
 	var filteredArray = [];
 	this.each(function(element, index){
 		if(spec.call(this, element)){
@@ -18,18 +29,9 @@ Array.prototype.where = function(spec){
 };
 
 Array.prototype.any = function(spec){
-	var isSpecAFunction = spec instanceof Function,
-		element;
 	for(var i =0,length = this.length; i < length; i++){
-		element = this[i];
-		if(isSpecAFunction){
-			if(spec.call(this, element)){
-				return true;
-			}
-		}else{
-			if(element == spec){
-				return true;
-			}
+		if(this.evaluateSpec(this[i], spec)){
+			return true;
 		}
 	};
 	
@@ -79,4 +81,25 @@ Array.prototype.last = function(spec){
 	}
 	
 	return element;
-}
+};
+
+Array.prototype.count = function(spec){
+	return this.where(spec).length;
+};
+
+Array.prototype.index = function(spec){
+	for(var i=0, length = this.length; i < length; i++){
+		if(this.evaluateSpec(this[i], spec)){
+			return i;
+		}
+	}	
+	return -1;
+};
+
+Array.prototype.pluck = function(property){
+	var properties = [];
+	this.each(function(element, index){
+		properties.push(element[property]);
+	});
+	return properties;
+};

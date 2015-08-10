@@ -342,4 +342,77 @@ describe("Array Extensions", function(){
 			expect(actual).to.equal(null);
 		});
 	});
+	
+	// count function tests
+	describe("count", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		it("Exercise test 1", function(){
+			var actual = children.count();
+			
+			expect(actual).to.equal(9);
+		});
+		
+		it("Exercise test 2", function(){
+			var actual = children.count(function(x){ return x.sex === 'f';});
+			
+			expect(actual).to.equal(5);
+		});
+	});
+	
+	// index function tests
+	describe("index", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		it("Exercise test 1", function(){
+			var actual = children.index(function(x){ return x.name == 'bany';});
+			
+			expect(actual).to.equal(5);
+		});
+		
+		it("Exercise test 2", function(){
+			var actual = children.index(function(x){ return x.name == 'mark';});
+			
+			expect(actual).to.equal(-1);
+		});
+		
+		it("Exercise test 3", function(){
+			var actual =[1, 3, 5, 7, 9, 11].index(7);
+			
+			expect(actual).to.equal(3);
+		});
+	});
+	
+	// pluck function tests
+	describe("pluck", function(){
+		it("Get the name property correctly.", function(){
+			var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'}
+			];
+			
+			var expected = ['ana', 'fosto'];
+			var actual = children.pluck('name');
+			
+			expect(actual).to.deep.equal(expected);
+		});
+	});
 });
