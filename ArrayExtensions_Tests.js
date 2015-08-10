@@ -439,7 +439,70 @@ describe("Array Extensions", function(){
 			
 			expect(actual).to.deep.equal('[object Object][object Object]');
 		});
+	});
+	
+	// max function tests
+	describe("max", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+			
+		it("Numbers", function(){
+			var actual = [1, 3, 5, 7, 9, 11, 2, 4, 6].max();
+			
+			expect(actual).to.equal(11);
+		});
 		
+		it("Children name", function(){
+			var actual = children.max(function(a, b){ return a.name.length - b.name.length }).name
+			
+			expect(actual).to.equal('martin');
+		});
 		
+		it("Person age", function(){
+			var actual = people.max(function(a, b){ return a.age - b.age; }).name;
+			
+			expect(actual).to.equal('pedro');
+		});
+	});
+	
+	// min function tests
+	describe("min", function(){
+		var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'},
+			    {name: 'jane', sex: 'f'},
+			    {name: 'yadi', sex: 'f'},
+			    {name: 'lili', sex: 'f'},
+			    {name: 'bany', sex: 'm'},
+			    {name: 'rod', sex: null},
+			    {name: 'auro', sex: 'f'},
+			    {name: 'martin', sex: 'm'}
+			];
+		it("Numbers", function(){
+			var actual = [1, 3, 5, 7, 9, 11, 2, 4, 6].min();
+			
+			expect(actual).to.equal(1);
+		});
+		
+		it("Children name", function(){
+			var actual = children.min(function(a, b){ return a.name.length - b.name.length }).name
+			
+			expect(actual).to.equal('ana');
+		});
+		
+		it("Person age", function(){
+			var actual = people.min(function(a, b){ return a.age - b.age; }).name;
+			
+			expect(actual).to.equal('juan');
+		});
 	});
 });

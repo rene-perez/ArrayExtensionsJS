@@ -124,6 +124,14 @@ Array.prototype.sum = function(spec){
 	}
 	
 	return sum;
-	
-	
+};
+
+Array.prototype.max = function(comparer){
+	comparer = comparer || function(a, b){return a - b};
+	return this.sort(comparer)[this.length -1];
+};
+
+Array.prototype.min = function(comparer){
+	comparer = comparer || function(a, b){return a - b};
+	return this.sort(comparer)[0];	
 };
