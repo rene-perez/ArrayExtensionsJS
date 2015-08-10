@@ -135,3 +135,26 @@ Array.prototype.min = function(comparer){
 	comparer = comparer || function(a, b){return a - b};
 	return this.sort(comparer)[0];	
 };
+
+Array.prototype.flatten = function(){
+	var newArray = [];
+	this.each(function(element, index){
+		if(Array.isArray(element)){
+			addArrayElement(newArray, element);
+		}else{
+			newArray.push(element);
+		}
+	});
+	
+	function addArrayElement(newArray, originalArray){
+		originalArray.each(function(element, index){
+			if(Array.isArray(element)){
+				addArrayElement(newArray, element);
+			}else{
+				newArray.push(element);
+			}
+		});
+	};
+	
+	return newArray;
+};

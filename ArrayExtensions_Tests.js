@@ -505,4 +505,16 @@ describe("Array Extensions", function(){
 			expect(actual).to.equal('juan');
 		});
 	});
+	
+	// min function tests
+	describe("flatten", function(){
+		
+		it("flattening ", function(){
+			var actual = [1,2,3,[4,5,[6, 7, 8], 9, 10, 11, 12, 13, 14], 15, 16].flatten();
+			var expected = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
+			
+			expect(actual).to.deep.equal(expected);
+		
+		});
+	});
 });
