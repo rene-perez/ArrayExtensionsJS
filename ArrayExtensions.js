@@ -57,9 +57,5 @@ Array.prototype.skip = function(howMany){
 };
 
 Array.prototype.first = function(spec){
-	if(spec){
-		return this.where(spec)[0];
-	}else{
-		return this[0];
-	}
+	return this.take(1, spec)[0];
 };
