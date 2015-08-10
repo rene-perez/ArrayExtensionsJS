@@ -104,8 +104,8 @@ Array.prototype.pluck = function(property){
 	return properties;
 };
 
-Array.prototype.sum = function(spec){
-	var sum;
+Array.prototype.sum = function(spec){	
+	var sum = null;
 	for(var i = 0, length = this.length; i < length; i++){
 		if(i === 0){			
 			if(spec){
