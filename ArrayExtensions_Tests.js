@@ -415,4 +415,31 @@ describe("Array Extensions", function(){
 			expect(actual).to.deep.equal(expected);
 		});
 	});
+	
+	// sum function tests
+	describe("sum", function(){
+		it("Sums with no spec", function(){
+			var actual = [1, 3, 5, 7, 9, 11].sum();
+			
+			expect(actual).to.deep.equal(36);
+		});
+		
+		it("Sums with spec", function(){
+			var actual = [1, 3, 5, 7, 9, 11].sum(function(x) { return x * 2; });
+			
+			expect(actual).to.deep.equal(72);
+		});
+		
+		it("Sums with not numbers", function(){
+			var children = [
+			    {name: 'ana', sex: 'f'},
+			    {name: 'fosto', sex: 'm'}
+			];
+			var actual = children.sum();
+			
+			expect(actual).to.deep.equal('[object Object][object Object]');
+		});
+		
+		
+	});
 });

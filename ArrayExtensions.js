@@ -103,3 +103,27 @@ Array.prototype.pluck = function(property){
 	});
 	return properties;
 };
+
+Array.prototype.sum = function(spec){
+	var sum;
+	for(var i = 0, length = this.length; i < length; i++){
+		if(i === 0){			
+			if(spec){
+				sum = spec.call(this, this[i]);
+			}else{
+				sum = this[i];
+			}
+			continue;
+		}
+		
+		if(spec){
+			sum += spec.call(this, this[i]);
+		}else{
+			sum += this[i];
+		}
+	}
+	
+	return sum;
+	
+	
+};
